@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="176dp"
+    android:background="@drawable/background_chat_header">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/app_logo_background"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="#303030"
+        app:civ_circle_background_color="@color/shimmer"
+        app:layout_constraintBottom_toBottomOf="@id/app_logo"
+        app:layout_constraintEnd_toEndOf="@id/app_logo"
+        app:layout_constraintStart_toStartOf="@id/app_logo"
+        app:layout_constraintTop_toTopOf="@id/app_logo" />
+
+
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/robot_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_logo_background" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "973862457418",
+    "firebase_url": "https://notification-f1b83.firebaseio.com",
+    "project_id": "notification-f1b83",
+    "storage_bucket": "notification-f1b83.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973862457418:android:bc7f0be1bb2db8d33496b3",
+        "android_client_info": {
+          "package_name": "com.ahmed.othman.notification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973862457418-s4firv1jtuofbs77njt0i45lreqijfqo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ahmed.othman.notification",
+            "certificate_hash": "257b7f1876ab897d087723a7694f8a2ba451d034"
+          }
+        },
+        {
+          "client_id": "973862457418-ltkf14uhl50vtoo5mn8q7806ljns0d8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCykLNrm_Q7KnakbqiscPLs95HSdNir6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973862457418-ltkf14uhl50vtoo5mn8q7806ljns0d8p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973862457418:android:3f9e5476af3211f63496b3",
+        "android_client_info": {
+          "package_name": "com.hopeTheRobot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973862457418-ltkf14uhl50vtoo5mn8q7806ljns0d8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCykLNrm_Q7KnakbqiscPLs95HSdNir6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973862457418-ltkf14uhl50vtoo5mn8q7806ljns0d8p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

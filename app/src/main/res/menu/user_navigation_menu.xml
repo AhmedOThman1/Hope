@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_nav_home"
+            android:title="@string/home" />
+
+        <item
+            android:id="@+id/nav_swab_requests"
+            android:icon="@drawable/ic_nav_swab"
+            android:visible="false"
+            android:title="@string/swab_requests" />
+
+        <item
+            android:id="@+id/nav_high_temp"
+            android:icon="@drawable/ic_nav_high_temp"
+            android:title="@string/high_temp" />
+
+        <item
+            android:id="@+id/nav_control_robot"
+            android:icon="@drawable/ic_nav_control_robot"
+            android:title="@string/control_robot" />
+
+        <item
+            android:id="@+id/nav_live_cam"
+            android:icon="@drawable/ic_nav_live_cam"
+            android:title="@string/live_cam" />
+
+        <item
+            android:id="@+id/nav_reports"
+            android:icon="@drawable/ic_nav_reports"
+            android:title="@string/reports" />
+
+        <item
+            android:id="@+id/nav_edit_profile"
+            android:icon="@drawable/ic_nav_profile"
+            android:title="@string/edit_profile" />
+
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_nav_live_help"
+            android:title="@string/help" />
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/logout" />
+    </group>
+</menu>

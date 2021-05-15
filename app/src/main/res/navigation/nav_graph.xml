@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/launcherFragment">
+
+    <fragment
+        android:id="@+id/launcherFragment"
+        android:name="com.hopeTheRobot.ui.fragments.LauncherFragment"
+        android:label="fragment_launcher"
+        tools:layout="@layout/fragment_launcher">
+        <action
+            android:id="@+id/action_launcherFragment_to_introFragment"
+            app:destination="@id/introFragment"
+            app:popUpTo="@id/launcherFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_launcherFragment_to_connectToRobotFragment"
+            app:destination="@id/connectToRobotFragment"
+            app:popUpTo="@id/launcherFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_launcherFragment_to_userMainFragment"
+            app:destination="@id/userMainFragment"
+            app:popUpTo="@id/launcherFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_launcherFragment_to_completeProfileFragment"
+            app:destination="@id/completeProfileFragment"
+            app:popUpTo="@id/launcherFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_launcherFragment_to_adminChatUsersFragment"
+            app:destination="@id/adminChatUsersFragment"
+            app:popUpTo="@id/launcherFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/introFragment"
+        android:name="com.hopeTheRobot.ui.fragments.IntroFragment"
+        android:label="fragment_intro"
+        tools:layout="@layout/fragment_intro">
+        <action
+            android:id="@+id/action_introFragment_to_connectToRobotFragment"
+            app:destination="@id/connectToRobotFragment"
+            app:popUpTo="@id/introFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_introFragment_to_userMainFragment"
+            app:destination="@id/userMainFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/introFragment"/>
+        <action
+            android:id="@+id/action_introFragment_to_completeProfileFragment"
+            app:destination="@id/completeProfileFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/introFragment" />
+        <action
+            android:id="@+id/action_introFragment_to_adminChatUsersFragment"
+            app:destination="@id/adminChatUsersFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/introFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/connectToRobotFragment"
+        android:name="com.hopeTheRobot.ui.fragments.auth.ConnectToRobotFragment"
+        android:label="fragment_connect_to_robot"
+        tools:layout="@layout/fragment_connect_to_robot" >
+        <action
+            android:id="@+id/action_connectToRobotFragment_to_howToGetHopeRobotFragment"
+            app:destination="@id/howToGetHopeRobotFragment"
+            app:popUpTo="@id/connectToRobotFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_connectToRobotFragment_to_userMainFragment"
+            app:destination="@id/userMainFragment"
+            app:popUpTo="@id/connectToRobotFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_connectToRobotFragment_to_completeProfileFragment"
+            app:destination="@id/completeProfileFragment"
+            app:popUpTo="@id/connectToRobotFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_connectToRobotFragment_to_adminChatUsersFragment"
+            app:destination="@id/adminChatUsersFragment"
+            app:popUpTo="@id/connectToRobotFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/howToGetHopeRobotFragment"
+        android:name="com.hopeTheRobot.ui.fragments.auth.HowToGetHopeRobotFragment"
+        android:label="fragment_how_to_get_hope_robot"
+        tools:layout="@layout/fragment_how_to_get_hope_robot" />
+
+    <fragment
+        android:id="@+id/userMainFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.userMainScreen.UserMainFragment"
+        android:label="fragment_user_main"
+        tools:layout="@layout/fragment_user_main" />
+
+    <fragment
+        android:id="@+id/completeProfileFragment"
+        android:name="com.hopeTheRobot.ui.fragments.auth.CompleteProfileFragment"
+        android:label="CompleteProfileFragment"
+        tools:layout="@layout/fragment_user_edit_profile">
+        <action
+            android:id="@+id/action_completeProfileFragment_to_userMainFragment"
+            app:destination="@id/userMainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminChatUsersFragment"
+        android:name="com.hopeTheRobot.ui.fragments.admin.chat.AdminChatUsersFragment"
+        android:label="fragment_admin_chat_users"
+        tools:layout="@layout/fragment_admin_chat_users" >
+        <action
+            android:id="@+id/action_adminChatUsersFragment_to_adminChatFragment"
+            app:destination="@id/adminChatFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminChatFragment"
+        android:name="com.hopeTheRobot.ui.fragments.admin.chat.AdminChatFragment"
+        android:label="fragment_admin_chat"
+        tools:layout="@layout/fragment_admin_chat" />
+</navigation>

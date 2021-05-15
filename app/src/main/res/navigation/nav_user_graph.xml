@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_user_graph.xml"
+    app:startDestination="@id/userHomeFragment">
+
+    <fragment
+        android:id="@+id/helpChatStoreFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.chat.HelpChatStoreFragment"
+        android:label="fragment_get_help_chat"
+        tools:layout="@layout/fragment_get_help_chat" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.editProfile.EditProfileFragment"
+        android:label="fragment_user_edit_profile"
+        tools:layout="@layout/fragment_user_edit_profile" />
+    <fragment
+        android:id="@+id/reportsFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.reports.ReportsFragment"
+        android:label="fragment_reports"
+        tools:layout="@layout/fragment_reports" />
+    <fragment
+        android:id="@+id/liveCamFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.liveCam.LiveCamFragment"
+        android:label="fragment_live_cam"
+        tools:layout="@layout/fragment_live_cam" />
+    <fragment
+        android:id="@+id/controlRobotFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.controlRobot.ControlRobotFragment"
+        android:label="fragment_control_robot"
+        tools:layout="@layout/fragment_control_robot" />
+    <fragment
+        android:id="@+id/highTempFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.highTemp.HighTempFragment"
+        android:label="fragment_high_temp"
+        tools:layout="@layout/fragment_high_temp" >
+        <action
+            android:id="@+id/action_highTempFragment_to_oneHighTempFragment"
+            app:destination="@id/oneHighTempFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/swabRequestsFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.swabRequests.SwabRequestsFragment"
+        android:label="fragment_swab_requests"
+        tools:layout="@layout/fragment_swab_requests" />
+    <fragment
+        android:id="@+id/userHomeFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.home.UserHomeFragment"
+        android:label="fragment_user_home"
+        tools:layout="@layout/fragment_user_home" />
+    <fragment
+        android:id="@+id/oneHighTempFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.highTemp.OneHighTempFragment"
+        android:label="fragment_one_high_temp"
+        tools:layout="@layout/fragment_one_high_temp" />
+</navigation>

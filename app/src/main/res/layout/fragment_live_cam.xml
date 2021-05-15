@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.user.liveCam.LiveCamFragment">
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/live_video"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/background_dark"
+        app:controller_layout_id="@layout/live_video_item_controller"
+        app:fastforward_increment="10000"
+        app:hide_on_touch="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:resize_mode="fit"
+        app:rewind_increment="10000"
+        app:show_timeout="5000"
+        app:shutter_background_color="@android:color/transparent" />
+
+    <ProgressBar
+        android:id="@+id/exo_progress_bar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@id/live_video"
+        app:layout_constraintEnd_toEndOf="@id/live_video"
+        app:layout_constraintStart_toStartOf="@id/live_video"
+        app:layout_constraintTop_toTopOf="@id/live_video" />
+
+
+
+
+    <ImageView
+        android:id="@+id/live_img"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_live"
+        app:layout_constraintBottom_toBottomOf="@id/live"
+        app:layout_constraintEnd_toStartOf="@id/live"
+        app:layout_constraintTop_toTopOf="@id/live"
+        app:tint="#E91E63" />
+
+    <TextView
+        android:id="@+id/live"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp"
+        android:text="@string/live"
+        android:textColor="#E91E63"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Hope</string>
+    <string name="nav_drawer_open">Open Navigation Drawer</string>
+    <string name="nav_drawer_close">Close Navigation Drawer</string>
+
+    <string name="skip">Skip</string>
+    <string name="get_started">Get started</string>
+    <string name="connect">Connect</string>
+    <string name="password">Password</string>
+    <string name="serial_number">Serial number</string>
+    <string name="don_t_have_a_robot_get_one">Don\'t have a robot?<u><b> Get one.</b></u></string>
+    <string name="empty">can\'t be empty</string>
+    <string name="can_not_be_less_than_6">"password can\'t be less than 6 characters"</string>
+    <string name="hi_there">Hi there</string>
+    <string name="welcome_to_hope_help_center_how_can_we_help_you_today">Welcome to Hope help center how can we help you today?</string>
+    <string name="home">Home</string>
+    <string name="help">Help</string>
+    <string name="logout">Logout</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="complete_profile">Complete profile</string>
+    <string name="reports">Reports</string>
+    <string name="live_cam">Live cam</string>
+    <string name="control_robot">Control robot</string>
+    <string name="high_temp">High temp</string>
+    <string name="swab_requests">Swab requests</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="location">Location</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="please_click_back_again_to_exit">Please click back again to exit</string>
+    <string name="good_day">Good Day</string>
+    <string name="take_control">Take Control</string>
+    <string name="thermal_cam">Thermal Cam</string>
+    <string name="detect_mask">Detect Mask</string>
+    <string name="robot_movement">Robot movement</string>
+    <string name="covid_19_swab">Covid-19 Swab</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="home_page">Home page</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="hello">"Hello, "</string>
+    <string name="covid_19_reports">Covid 19 reports</string>
+    <string name="today_cases">Today cases</string>
+    <string name="egypt_live">Egypt Live</string>
+    <string name="worldwide_live">Worldwide Live</string>
+    <string name="total_cases">Total cases</string>
+    <string name="today_recovered">Today recovered</string>
+    <string name="total_recovered">Total recovered</string>
+    <string name="today_deaths">Today deaths</string>
+    <string name="total_deaths">Total deaths</string>
+    <string name="population">Population</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="go_to_setting">Go to wifi Setting</string>
+    <string name="live">Live</string>
+
+    <array name="intro_titles">
+        <item>Taking a corona swab</item>
+        <item>Raise awareness</item>
+        <item>Corona infection suspected</item>
+        <item>Remotely control</item>
+    </array>
+
+    <array name="intro_bodies">
+
+        <item>HOPE can take a corona swab , upon the doctor\'s agreement to protect doctors from
+            infection.</item>
+        <item>Warn people who don\'t wear a mask and alert them to wear a mask.</item>
+        <item>Distinguish people with high temperature and take a photo of them.</item>
+        <item>Doctor can watch what the Hope robot seeing and control the movement of the Hope robot
+            remotely.</item>
+    </array>
+
+</resources>
