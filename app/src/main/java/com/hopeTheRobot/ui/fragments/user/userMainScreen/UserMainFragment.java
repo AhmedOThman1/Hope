@@ -74,8 +74,8 @@ public class UserMainFragment extends Fragment {
 
                 case R.id.nav_live_cam:
                     userToolbar.setVisibility(View.GONE);
-                    if (currentFragmentId != R.id.liveCamFragment)
-                        Navigation.findNavController(requireActivity(), R.id.nav_user_host_fragment).navigate(R.id.liveCamFragment);
+                    if (currentFragmentId != R.id.liveCamWebViewFragment)
+                        Navigation.findNavController(requireActivity(), R.id.nav_user_host_fragment).navigate(R.id.liveCamWebViewFragment);
                     break;
 
                 case R.id.nav_reports:

@@ -5,25 +5,23 @@
             android:fromDegrees="45"
             android:pivotX="100%"
             android:pivotY="0%"
-            android:toDegrees="0" >
-            <shape android:shape="rectangle" >
+            android:toDegrees="0">
+            <shape android:shape="rectangle">
 
                 <gradient
-                    android:startColor="@color/colorSecondary"
+                    android:angle="0"
                     android:endColor="#AFF1F8"
-                    android:angle="0"/>
-
+                    android:startColor="@color/colorSecondary" />
             </shape>
         </rotate>
     </item>
-    <item android:right="8dp">
-        <shape android:shape="rectangle" >
+    <item android:right="16dp">
+        <shape android:shape="rectangle">
 
             <gradient
-                android:startColor="@color/colorSecondary"
+                android:angle="0"
                 android:endColor="#AFF1F8"
-                android:angle="0"/>
-
+                android:startColor="@color/colorSecondary" />
             <corners android:radius="15dp" />
         </shape>
     </item>

@@ -5,12 +5,15 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -20,7 +23,6 @@ import androidx.navigation.Navigation;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
@@ -29,22 +31,30 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DefaultAllocator;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hopeTheRobot.R;
 import com.hopeTheRobot.ui.fragments.user.userMainScreen.UserMainFragment;
 
-public class LiveCamFragment extends Fragment {
+public class LiveCamWebViewFragment extends Fragment {
+    String liveUrl = "";
+    FirebaseDatabase database;
+    DatabaseReference liveLinkRef;
+    WebView web_view_live;
 
-    ProgressBar exo_progress_bar;
-    PlayerView live_video;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_live_cam, container, false);
+        View view = inflater.inflate(R.layout.fragment_live_cam_web_view, container, false);
 
         UserMainFragment.navigation_view.setCheckedItem(R.id.nav_live_cam);
         if (UserMainFragment.userToolbar.getVisibility() != View.VISIBLE)
@@ -52,8 +62,6 @@ public class LiveCamFragment extends Fragment {
         UserMainFragment.userToolbar.setTitle(requireContext().getString(R.string.live_cam));
 
 
-        live_video = view.findViewById(R.id.live_video);
-        exo_progress_bar = view.findViewById(R.id.exo_progress_bar);
         ImageView live_img = view.findViewById(R.id.live_img);
 // setup animation
         ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
@@ -66,40 +74,37 @@ public class LiveCamFragment extends Fragment {
         objectAnimator.setRepeatMode(ValueAnimator.REVERSE);
         objectAnimator.start();
 
-        String liveUrl = "http://192.168.1.3:5000/";
+//        String liveUrl = "http://192.168.1.3:5000/";
+
+        web_view_live = view.findViewById(R.id.web_view_live);
+//        web_view_live.loadUrl(liveUrl);
 
 
-        if (URLUtil.isValidUrl(liveUrl)) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        liveLinkRef = database.getReference("Live").child(currentUser.getUid());
+        getLiveLink();
 
-           SimpleExoPlayer exoPlayersVideo = ExoPlayerFactory.newSimpleInstance(requireContext(), new DefaultTrackSelector(
-                    requireContext(),
-                    new AdaptiveTrackSelection.Factory()
-            ), new DefaultLoadControl());
-
-            MediaSource mediaSource = new ExtractorMediaSource(
-                    Uri.parse(liveUrl),
-                    new DefaultHttpDataSourceFactory("exoplayer_video"),
-                    new DefaultExtractorsFactory(),
-                    null,
-                    null
-            );
-            exoPlayersVideo.setMediaSource(mediaSource);
-            live_video.setPlayer(exoPlayersVideo);
-            live_video.setKeepScreenOn(true);
-            exoPlayersVideo.prepare();
-            exoPlayersVideo.setPlayWhenReady(false);
-
-            exoPlayersVideo.addListener(new Player.EventListener() {
-                @Override
-                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                    if (playbackState == Player.STATE_BUFFERING)
-                        exo_progress_bar.setVisibility(View.VISIBLE);
-                    else if (playbackState == Player.STATE_READY)
-                        exo_progress_bar.setVisibility(View.GONE);
-                }
-            });
-        }
         return view;
+    }
+
+    private void getLiveLink() {
+        liveLinkRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                liveUrl = snapshot.getValue(String.class);
+                Log.w("LINK","live: "+liveUrl);
+                if (liveUrl != null)
+                    web_view_live.loadUrl(liveUrl);
+                else
+                    Toast.makeText(requireContext(), "Live Link is incorrect", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -110,7 +115,7 @@ public class LiveCamFragment extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Navigation.findNavController(requireActivity(), R.id.nav_user_host_fragment).popBackStack(R.id.userHomeFragment,false);
+                Navigation.findNavController(requireActivity(), R.id.nav_user_host_fragment).popBackStack(R.id.userHomeFragment, false);
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);

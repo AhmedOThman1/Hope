@@ -53,6 +53,17 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="go_to_setting">Go to wifi Setting</string>
     <string name="live">Live</string>
+    <string name="session_expired_please_login_again"><b>Session Expired </b>\nplease login again.</string>
+    <string name="warning">Warning</string>
+    <string name="you_cannot_control_the_robot_movement_because_the_controlmovement_is_turned_off_ndo_you_want_to_turn_it_on">You cannot control the robot movement because the ControlMovement is turned off.\nDo you want to turn it on?</string>
+    <string name="turn_it_on">Turn it on</string>
+    <string name="you_cannot_receive_new_high_temperature_requests_because_thermalcontrol_is_turned_of_ndo_you_want_to_turn_it_on">You cannot receive new high temperature requests because ThermalControl is turned off.\nDo you want to turn it on?</string>
+    <string name="elbow_motor">Elbow motor</string>
+    <string name="shoulder_motor">Shoulder motor</string>
+    <string name="base_motor">Base motor</string>
+    <string name="wrist_roll_motor">Wrist roll motor</string>
+    <string name="wrist_pitch_motor">Wrist pitch motor</string>
+    <string name="gripper_motor">Gripper motor</string>
 
     <array name="intro_titles">
         <item>Taking a corona swab</item>

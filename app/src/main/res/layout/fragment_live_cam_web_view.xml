@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_black"
+    tools:context=".ui.fragments.user.liveCam.LiveCamWebViewFragment">
+
+    <WebView
+        android:id="@+id/web_view_live"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/live_img"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_live"
+        app:layout_constraintBottom_toBottomOf="@id/live"
+        app:layout_constraintEnd_toStartOf="@id/live"
+        app:layout_constraintTop_toTopOf="@id/live"
+        app:tint="#E91E63" />
+
+    <TextView
+        android:id="@+id/live"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp"
+        android:text="@string/live"
+        android:textColor="#E91E63"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

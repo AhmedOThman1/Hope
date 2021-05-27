@@ -34,7 +34,7 @@
         android:id="@+id/highTempFragment"
         android:name="com.hopeTheRobot.ui.fragments.user.highTemp.HighTempFragment"
         android:label="fragment_high_temp"
-        tools:layout="@layout/fragment_high_temp" >
+        tools:layout="@layout/fragment_high_temp">
         <action
             android:id="@+id/action_highTempFragment_to_oneHighTempFragment"
             app:destination="@id/oneHighTempFragment" />
@@ -48,10 +48,26 @@
         android:id="@+id/userHomeFragment"
         android:name="com.hopeTheRobot.ui.fragments.user.home.UserHomeFragment"
         android:label="fragment_user_home"
-        tools:layout="@layout/fragment_user_home" />
+        tools:layout="@layout/fragment_user_home">
+        <action
+            android:id="@+id/action_userHomeFragment_to_connectToRobotFragment2"
+            app:destination="@id/connectToRobotFragment2"
+            app:popUpTo="@id/userHomeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/oneHighTempFragment"
         android:name="com.hopeTheRobot.ui.fragments.user.highTemp.OneHighTempFragment"
         android:label="fragment_one_high_temp"
         tools:layout="@layout/fragment_one_high_temp" />
+    <fragment
+        android:id="@+id/connectToRobotFragment2"
+        android:name="com.hopeTheRobot.ui.fragments.auth.ConnectToRobotFragment"
+        android:label="fragment_connect_to_robot"
+        tools:layout="@layout/fragment_connect_to_robot" />
+    <fragment
+        android:id="@+id/liveCamWebViewFragment"
+        android:name="com.hopeTheRobot.ui.fragments.user.liveCam.LiveCamWebViewFragment"
+        android:label="fragment_live_cam_web_view"
+        tools:layout="@layout/fragment_live_cam_web_view" />
 </navigation>

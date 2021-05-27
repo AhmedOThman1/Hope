@@ -3,9 +3,13 @@ package com.hopeTheRobot.ui.fragments.user.home;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -25,6 +30,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -38,10 +44,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.hopeTheRobot.R;
 import com.hopeTheRobot.network.ApiClient;
 import com.hopeTheRobot.pojo.ControlItem;
 import com.hopeTheRobot.pojo.Covid19ReportItem;
+import com.hopeTheRobot.ui.activities.MainActivity;
 import com.hopeTheRobot.ui.fragments.user.userMainScreen.UserMainFragment;
 
 import java.text.DecimalFormat;
@@ -77,159 +85,193 @@ public class UserHomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_user_home, container, false);
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            logoutAndGoToLogin();
+        } else {
+            database = FirebaseDatabase.getInstance();
+            controlRef = database.getReference("Control").child(currentUser.getUid());
 
-        database = FirebaseDatabase.getInstance();
-        controlRef = database.getReference("Control").child(currentUser.getUid());
+            UserMainFragment.navigation_view.setCheckedItem(R.id.nav_home);
+            if (UserMainFragment.userToolbar != null)
+                UserMainFragment.userToolbar.setVisibility(View.GONE);
 
-        UserMainFragment.navigation_view.setCheckedItem(R.id.nav_home);
-        if (UserMainFragment.userToolbar != null)
-            UserMainFragment.userToolbar.setVisibility(View.GONE);
+            Toolbar toolbar = view.findViewById(R.id.toolbar);
 
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(requireActivity(), UserMainFragment.drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
+            toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
+            UserMainFragment.drawerLayout.addDrawerListener(toggle);
+            toggle.syncState();
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(requireActivity(), UserMainFragment.drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
-        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
-        UserMainFragment.drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+            user_img = view.findViewById(R.id.user_img);
+            user_img_inside_toolbar = view.findViewById(R.id.user_img_inside_toolbar);
 
-        user_img = view.findViewById(R.id.user_img);
-        user_img_inside_toolbar = view.findViewById(R.id.user_img_inside_toolbar);
+            Glide.with(requireActivity())
+                    .load(currentUser.getPhotoUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.DATA.DATA)
+                    .placeholder(R.drawable.robot_img_small)
+                    .into(user_img);
 
-        Glide.with(requireActivity())
-                .load(currentUser.getPhotoUrl())
-                .diskCacheStrategy(DiskCacheStrategy.DATA.DATA)
-                .placeholder(R.drawable.robot_img_small)
-                .into(user_img);
-
-        Glide.with(requireActivity())
-                .load(currentUser.getPhotoUrl())
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .placeholder(R.drawable.robot_img_small)
-                .into(user_img_inside_toolbar);
-
-
-        welcome_text = view.findViewById(R.id.welcome_text);
-        user_name_inside_toolbar = view.findViewById(R.id.user_name_inside_toolbar);
-
-        String[] name = currentUser.getDisplayName().split(" ");
-        welcome_text.setText(getString(R.string.hello) + name[0]);
-        user_name_inside_toolbar.setText(currentUser.getDisplayName());
-
-        first_card = view.findViewById(R.id.first_card);
-        second_card = view.findViewById(R.id.second_card);
-        third_card = view.findViewById(R.id.third_card);
-        fourth_card = view.findViewById(R.id.fourth_card);
-
-        first_card_on_off_text = view.findViewById(R.id.first_card_on_off_text);
-        second_card_on_off_text = view.findViewById(R.id.second_card_on_off_text);
-        third_card_on_off_text = view.findViewById(R.id.third_card_on_off_text);
-        fourth_card_on_off_text = view.findViewById(R.id.fourth_card_on_off_text);
-
-        first_card_on_off = view.findViewById(R.id.first_card_on_off);
-        second_card_on_off = view.findViewById(R.id.second_card_on_off);
-        third_card_on_off = view.findViewById(R.id.third_card_on_off);
-        fourth_card_on_off = view.findViewById(R.id.fourth_card_on_off);
-
-        first_card_title = view.findViewById(R.id.first_card_title);
-        second_card_title = view.findViewById(R.id.second_card_title);
-        third_card_title = view.findViewById(R.id.third_card_title);
-        fourth_card_title = view.findViewById(R.id.fourth_card_title);
-
-        first_card_img = view.findViewById(R.id.first_card_img);
-        second_card_img = view.findViewById(R.id.second_card_img);
-        third_card_img = view.findViewById(R.id.third_card_img);
-        fourth_card_img = view.findViewById(R.id.fourth_card_img);
-
-        first_card.setOnClickListener(v -> {
-            controlItem.setSwabControl(!controlItem.getSwabControl());
-            controlRef.setValue(controlItem);
-        });
-        second_card.setOnClickListener(v -> {
-            controlItem.setMovementControl(!controlItem.getMovementControl());
-            controlRef.setValue(controlItem);
-        });
-        third_card.setOnClickListener(v -> {
-            controlItem.setMaskControl(!controlItem.getMaskControl());
-            controlRef.setValue(controlItem);
-        });
-        fourth_card.setOnClickListener(v -> {
-            controlItem.setThermalControl(!controlItem.getThermalControl());
-            controlRef.setValue(controlItem);
-        });
-
-        first_card_on_off.setOnClickListener(v -> {
-            controlItem.setSwabControl(!controlItem.getSwabControl());
-            controlRef.setValue(controlItem);
-        });
-        second_card_on_off.setOnClickListener(v -> {
-            controlItem.setMovementControl(!controlItem.getMovementControl());
-            controlRef.setValue(controlItem);
-        });
-        third_card_on_off.setOnClickListener(v -> {
-            controlItem.setMaskControl(!controlItem.getMaskControl());
-            controlRef.setValue(controlItem);
-        });
-        fourth_card_on_off.setOnClickListener(v -> {
-            controlItem.setThermalControl(!controlItem.getThermalControl());
-            controlRef.setValue(controlItem);
-        });
-
-        getControlInfo();
+            Glide.with(requireActivity())
+                    .load(currentUser.getPhotoUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .placeholder(R.drawable.robot_img_small)
+                    .into(user_img_inside_toolbar);
 
 
-        AppBarLayout appbar = view.findViewById(R.id.appbar);
-        appbar.addOnOffsetChangedListener((appBarLayout, i) -> {
-            if (Math.abs(i) == appBarLayout.getTotalScrollRange()) {
-                // show toolbar
-                view.findViewById(R.id.toolbar_views).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.toolbar).setBackgroundResource(R.drawable.background_main_toolbar);
-            } else if (Math.abs(i) < (appBarLayout.getTotalScrollRange()) / 2) {
-                //hide toolbar
-                view.findViewById(R.id.toolbar_views).setVisibility(View.GONE);
-                view.findViewById(R.id.toolbar).setBackgroundColor(Color.TRANSPARENT);
-            } else {
-                //show toolbar
-                view.findViewById(R.id.toolbar_views).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.toolbar).setBackgroundResource(R.drawable.background_main_toolbar);
-            }
-        });
+            welcome_text = view.findViewById(R.id.welcome_text);
+            user_name_inside_toolbar = view.findViewById(R.id.user_name_inside_toolbar);
+
+            String[] name = currentUser.getDisplayName().split(" ");
+            welcome_text.setText(getString(R.string.hello) + name[0]);
+            user_name_inside_toolbar.setText(currentUser.getDisplayName());
+
+            first_card = view.findViewById(R.id.first_card);
+            second_card = view.findViewById(R.id.second_card);
+            third_card = view.findViewById(R.id.third_card);
+            fourth_card = view.findViewById(R.id.fourth_card);
+
+            first_card_on_off_text = view.findViewById(R.id.first_card_on_off_text);
+            second_card_on_off_text = view.findViewById(R.id.second_card_on_off_text);
+            third_card_on_off_text = view.findViewById(R.id.third_card_on_off_text);
+            fourth_card_on_off_text = view.findViewById(R.id.fourth_card_on_off_text);
+
+            first_card_on_off = view.findViewById(R.id.first_card_on_off);
+            second_card_on_off = view.findViewById(R.id.second_card_on_off);
+            third_card_on_off = view.findViewById(R.id.third_card_on_off);
+            fourth_card_on_off = view.findViewById(R.id.fourth_card_on_off);
+
+            first_card_title = view.findViewById(R.id.first_card_title);
+            second_card_title = view.findViewById(R.id.second_card_title);
+            third_card_title = view.findViewById(R.id.third_card_title);
+            fourth_card_title = view.findViewById(R.id.fourth_card_title);
+
+            first_card_img = view.findViewById(R.id.first_card_img);
+            second_card_img = view.findViewById(R.id.second_card_img);
+            third_card_img = view.findViewById(R.id.third_card_img);
+            fourth_card_img = view.findViewById(R.id.fourth_card_img);
+
+            first_card.setOnClickListener(v -> {
+                controlItem.setSwabControl(!controlItem.getSwabControl());
+                controlRef.setValue(controlItem);
+            });
+            second_card.setOnClickListener(v -> {
+                controlItem.setMovementControl(!controlItem.getMovementControl());
+                controlRef.setValue(controlItem);
+            });
+            third_card.setOnClickListener(v -> {
+                controlItem.setMaskControl(!controlItem.getMaskControl());
+                controlRef.setValue(controlItem);
+            });
+            fourth_card.setOnClickListener(v -> {
+                controlItem.setThermalControl(!controlItem.getThermalControl());
+                controlRef.setValue(controlItem);
+            });
+
+            first_card_on_off.setOnClickListener(v -> {
+                controlItem.setSwabControl(!controlItem.getSwabControl());
+                controlRef.setValue(controlItem);
+            });
+            second_card_on_off.setOnClickListener(v -> {
+                controlItem.setMovementControl(!controlItem.getMovementControl());
+                controlRef.setValue(controlItem);
+            });
+            third_card_on_off.setOnClickListener(v -> {
+                controlItem.setMaskControl(!controlItem.getMaskControl());
+                controlRef.setValue(controlItem);
+            });
+            fourth_card_on_off.setOnClickListener(v -> {
+                controlItem.setThermalControl(!controlItem.getThermalControl());
+                controlRef.setValue(controlItem);
+            });
+
+            getControlInfo();
 
 
-        egypt_live = view.findViewById(R.id.egypt_live);
-        egypt_live_img = view.findViewById(R.id.egypt_live_img);
+            AppBarLayout appbar = view.findViewById(R.id.appbar);
+            appbar.addOnOffsetChangedListener((appBarLayout, i) -> {
+                if (Math.abs(i) == appBarLayout.getTotalScrollRange()) {
+                    // show toolbar
+                    view.findViewById(R.id.toolbar_views).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.toolbar).setBackgroundResource(R.drawable.background_main_toolbar);
+                } else if (Math.abs(i) < (appBarLayout.getTotalScrollRange()) / 2) {
+                    //hide toolbar
+                    view.findViewById(R.id.toolbar_views).setVisibility(View.GONE);
+                    view.findViewById(R.id.toolbar).setBackgroundColor(Color.TRANSPARENT);
+                } else {
+                    //show toolbar
+                    view.findViewById(R.id.toolbar_views).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.toolbar).setBackgroundResource(R.drawable.background_main_toolbar);
+                }
+            });
+
+
+            egypt_live = view.findViewById(R.id.egypt_live);
+            egypt_live_img = view.findViewById(R.id.egypt_live_img);
 // setup animation
-        ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-                egypt_live_img,
-                PropertyValuesHolder.ofFloat("scaleX", 0.85f),
-                PropertyValuesHolder.ofFloat("scaleY", 0.85f)
-        );
-        objectAnimator.setDuration(700);
-        objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        objectAnimator.setRepeatMode(ValueAnimator.REVERSE);
-        objectAnimator.start();
+            ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
+                    egypt_live_img,
+                    PropertyValuesHolder.ofFloat("scaleX", 0.85f),
+                    PropertyValuesHolder.ofFloat("scaleY", 0.85f)
+            );
+            objectAnimator.setDuration(700);
+            objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
+            objectAnimator.setRepeatMode(ValueAnimator.REVERSE);
+            objectAnimator.start();
 
 
-        today_cases = view.findViewById(R.id.today_cases);
-        today_recovered = view.findViewById(R.id.today_recovered);
-        today_deaths = view.findViewById(R.id.today_deaths);
-        total_cases = view.findViewById(R.id.total_cases);
-        total_recovered = view.findViewById(R.id.total_recovered);
-        total_deaths = view.findViewById(R.id.total_deaths);
-        population = view.findViewById(R.id.population);
-        last_update_date = view.findViewById(R.id.last_update_date);
-        last_update_time = view.findViewById(R.id.last_update_time);
-        /// Covid 19 API
+            today_cases = view.findViewById(R.id.today_cases);
+            today_recovered = view.findViewById(R.id.today_recovered);
+            today_deaths = view.findViewById(R.id.today_deaths);
+            total_cases = view.findViewById(R.id.total_cases);
+            total_recovered = view.findViewById(R.id.total_recovered);
+            total_deaths = view.findViewById(R.id.total_deaths);
+            population = view.findViewById(R.id.population);
+            last_update_date = view.findViewById(R.id.last_update_date);
+            last_update_time = view.findViewById(R.id.last_update_time);
+            /// Covid 19 API
 
-        getOneCountryReport();
+            getOneCountryReport();
 
-        egypt_live.setOnClickListener(v -> showLivePopupMenu(v));
-        egypt_live_img.setOnClickListener(v -> showLivePopupMenu(egypt_live));
-        view.findViewById(R.id.live_arrow).setOnClickListener(v -> showLivePopupMenu(egypt_live));
-
+            egypt_live.setOnClickListener(v -> showLivePopupMenu(v));
+            egypt_live_img.setOnClickListener(v -> showLivePopupMenu(egypt_live));
+            view.findViewById(R.id.live_arrow).setOnClickListener(v -> showLivePopupMenu(egypt_live));
+        }
         ///
         return view;
     }
 
+    AlertDialog dialog;
+
+    private void logoutAndGoToLogin() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        View view = getLayoutInflater().inflate(R.layout.session_expired_dialog, null);
+        view.findViewById(R.id.ok).setOnClickListener(v -> dialog.dismiss());
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
+        dialog.setOnDismissListener(dialog1 -> {
+            requireContext().getSharedPreferences(MainActivity.shared_pref, Context.MODE_PRIVATE).edit()
+                    .putBoolean(MainActivity.adminLoggedIn, false)
+                    .putBoolean(MainActivity.userLoggedIn, false)
+                    .apply();
+            new Handler().postDelayed(() -> restartApp(), 1000);
+        });
+        Window window = dialog.getWindow();
+        assert window != null;
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
+
+
+    private void restartApp() {
+        Intent restartIntent = requireActivity().getBaseContext()
+                .getPackageManager()
+                .getLaunchIntentForPackage(requireActivity().getBaseContext().getPackageName());
+        assert restartIntent != null;
+        restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        restartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(restartIntent);
+        requireActivity().finish();
+    }
 
     private void showLivePopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(requireContext(), view);
@@ -270,6 +312,10 @@ public class UserHomeFragment extends Fragment {
 
                     last_update_date.setText(date);
                     last_update_time.setText(time);
+
+                    //save these values to use in offline mode
+                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences(MainActivity.shared_pref, Context.MODE_PRIVATE);
+                    sharedPreferences.edit().putString("egypt_offline", new Gson().toJson(covid19ReportItem)).apply();
                 }
             }
 
@@ -281,16 +327,40 @@ public class UserHomeFragment extends Fragment {
 //                            .setActionTextColor(Color.WHITE)
                             .show();
 
-                String def = "#,###";
-                today_cases.setText(def);
-                today_recovered.setText(def);
-                today_deaths.setText(def);
-                total_cases.setText(def);
-                total_recovered.setText(def);
-                total_deaths.setText(def);
-                population.setText(def);
-                last_update_date.setText("DD/MM/YYYY");
-                last_update_time.setText("HH:MM AM_PM");
+                //get values from shared prefs to use in offline mode
+                SharedPreferences sharedPreferences = requireContext().getSharedPreferences(MainActivity.shared_pref, Context.MODE_PRIVATE);
+                String json = sharedPreferences.getString("egypt_offline", "");
+                if (!json.equals("")) {
+                    Covid19ReportItem covid19ReportItem = new Gson().fromJson(json, Covid19ReportItem.class);
+                    DecimalFormat decimalFormat = new DecimalFormat("#,###");
+                    today_cases.setText(String.format("%,d", covid19ReportItem.getTodayCases()));
+                    today_recovered.setText(String.format("%,d", covid19ReportItem.getTodayRecovered()));
+                    today_deaths.setText(String.format("%,d", covid19ReportItem.getTodayDeaths()));
+                    total_cases.setText(String.format("%,d", covid19ReportItem.getTotalCases()));
+                    total_recovered.setText(String.format("%,d", covid19ReportItem.getTotalRecovered()));
+                    total_deaths.setText(String.format("%,d", covid19ReportItem.getTotalDeaths()));
+                    population.setText(String.format("%,d", covid19ReportItem.getPopulation()));
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(covid19ReportItem.getTime());
+                    String date = calendar.get(Calendar.DAY_OF_MONTH) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR);
+                    String time = (calendar.get(Calendar.HOUR) == 0 ? "12" : calendar.get(Calendar.HOUR)) + ":" + (calendar.get(Calendar.MINUTE) > 9 ? calendar.get(Calendar.MINUTE) : "0" + calendar.get(Calendar.MINUTE)) + (calendar.get(Calendar.AM_PM) == Calendar.AM ? " AM" : " PM");
+
+                    last_update_date.setText(date);
+                    last_update_time.setText(time);
+
+                } else {
+                    String def = "#,###";
+                    today_cases.setText(def);
+                    today_recovered.setText(def);
+                    today_deaths.setText(def);
+                    total_cases.setText(def);
+                    total_recovered.setText(def);
+                    total_deaths.setText(def);
+                    population.setText(def);
+                    last_update_date.setText("DD/MM/YYYY");
+                    last_update_time.setText("HH:MM AM");
+                }
             }
         });
     }
@@ -319,6 +389,10 @@ public class UserHomeFragment extends Fragment {
 
                     last_update_date.setText(date);
                     last_update_time.setText(time);
+
+                    //save these values to use in offline mode
+                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences(MainActivity.shared_pref, Context.MODE_PRIVATE);
+                    sharedPreferences.edit().putString("general_offline", new Gson().toJson(covid19ReportItem)).apply();
                 }
             }
 
@@ -330,16 +404,40 @@ public class UserHomeFragment extends Fragment {
 //                            .setActionTextColor(Color.WHITE)
                             .show();
 
-                String def = "#,###";
-                today_cases.setText(def);
-                today_recovered.setText(def);
-                today_deaths.setText(def);
-                total_cases.setText(def);
-                total_recovered.setText(def);
-                total_deaths.setText(def);
-                population.setText(def);
-                last_update_date.setText("DD/MM/YYYY");
-                last_update_time.setText("HH:MM AM_PM");
+                //get values from shared prefs to use in offline mode
+                SharedPreferences sharedPreferences = requireContext().getSharedPreferences(MainActivity.shared_pref, Context.MODE_PRIVATE);
+                String json = sharedPreferences.getString("general_offline", "");
+                if (!json.equals("")) {
+                    Covid19ReportItem covid19ReportItem = new Gson().fromJson(json, Covid19ReportItem.class);
+                    DecimalFormat decimalFormat = new DecimalFormat("#,###");
+                    today_cases.setText(String.format("%,d", covid19ReportItem.getTodayCases()));
+                    today_recovered.setText(String.format("%,d", covid19ReportItem.getTodayRecovered()));
+                    today_deaths.setText(String.format("%,d", covid19ReportItem.getTodayDeaths()));
+                    total_cases.setText(String.format("%,d", covid19ReportItem.getTotalCases()));
+                    total_recovered.setText(String.format("%,d", covid19ReportItem.getTotalRecovered()));
+                    total_deaths.setText(String.format("%,d", covid19ReportItem.getTotalDeaths()));
+                    population.setText(String.format("%,d", covid19ReportItem.getPopulation()));
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(covid19ReportItem.getTime());
+                    String date = calendar.get(Calendar.DAY_OF_MONTH) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR);
+                    String time = (calendar.get(Calendar.HOUR) == 0 ? "12" : calendar.get(Calendar.HOUR)) + ":" + (calendar.get(Calendar.MINUTE) > 9 ? calendar.get(Calendar.MINUTE) : "0" + calendar.get(Calendar.MINUTE)) + (calendar.get(Calendar.AM_PM) == Calendar.AM ? " AM" : " PM");
+
+                    last_update_date.setText(date);
+                    last_update_time.setText(time);
+
+                } else {
+                    String def = "#,###";
+                    today_cases.setText(def);
+                    today_recovered.setText(def);
+                    today_deaths.setText(def);
+                    total_cases.setText(def);
+                    total_recovered.setText(def);
+                    total_deaths.setText(def);
+                    population.setText(def);
+                    last_update_date.setText("DD/MM/YYYY");
+                    last_update_time.setText("HH:MM PM");
+                }
             }
         });
     }

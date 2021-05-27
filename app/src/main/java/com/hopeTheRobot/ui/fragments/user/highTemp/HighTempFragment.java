@@ -1,21 +1,28 @@
 package com.hopeTheRobot.ui.fragments.user.highTemp;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +32,7 @@ import com.google.gson.Gson;
 import com.hopeTheRobot.R;
 import com.hopeTheRobot.RecyclerViewTouchListener;
 import com.hopeTheRobot.adapters.HighTempAdapter;
+import com.hopeTheRobot.pojo.ControlItem;
 import com.hopeTheRobot.pojo.HighTempItem;
 import com.hopeTheRobot.ui.fragments.user.userMainScreen.UserMainFragment;
 
@@ -40,9 +48,10 @@ public class HighTempFragment extends Fragment {
     HighTempAdapter highTempAdapter;
 
     FirebaseDatabase database;
-    DatabaseReference highTempRef;
+    DatabaseReference highTempRef, controlRef;
 
     ArrayList<HighTempItem> highTempItems = new ArrayList<>();
+    CardView warning_card;
 
     @Nullable
     @Override
@@ -51,7 +60,7 @@ public class HighTempFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_high_temp, container, false);
-
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance();
         highTempRef = FirebaseDatabase.getInstance().getReference("HighTemp");
 
@@ -70,12 +79,13 @@ public class HighTempFragment extends Fragment {
         high_temp_shimmer.setVisibility(highTempItems.isEmpty() ? View.VISIBLE : View.GONE);
         getAllHighTemp();
 
+
         high_temp_recycler.addOnItemTouchListener(new RecyclerViewTouchListener(requireContext(), high_temp_recycler, new RecyclerViewTouchListener.RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putString("item", new Gson().toJson(highTempItems.get(position)));
-                Navigation.findNavController(view).navigate(R.id.action_highTempFragment_to_oneHighTempFragment,bundle);
+                Navigation.findNavController(view).navigate(R.id.action_highTempFragment_to_oneHighTempFragment, bundle);
             }
 
             @Override
@@ -83,6 +93,30 @@ public class HighTempFragment extends Fragment {
 
             }
         }));
+
+        //warrniing setup
+        TextView warning_title = view.findViewById(R.id.warning_title);
+        warning_card = view.findViewById(R.id.warning_card);
+        controlRef = database.getReference("Control").child(currentUser.getUid());
+        getControlInfo();
+        // setup animation
+        ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
+                warning_title,
+                PropertyValuesHolder.ofFloat("scaleX", 0.85f),
+                PropertyValuesHolder.ofFloat("scaleY", 0.85f)
+        );
+        objectAnimator.setDuration(700);
+        objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        objectAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        objectAnimator.start();
+
+        view.findViewById(R.id.warning_turn_on).setOnClickListener(v -> {
+            controlItem.setThermalControl(!controlItem.getThermalControl());
+            controlRef.setValue(controlItem);
+            warning_card.setVisibility(View.GONE);
+            Toast.makeText(requireContext(), "Done", Toast.LENGTH_SHORT).show();
+        });
+
 
         return view;
     }
@@ -107,12 +141,30 @@ public class HighTempFragment extends Fragment {
                 if (highTempItems.isEmpty())
                     Toast.makeText(requireContext(), "No Items", Toast.LENGTH_SHORT).show();
 
-                new Handler().postDelayed(()-> {
+                new Handler().postDelayed(() -> {
                     highTempAdapter.setModels(highTempItems);
                     highTempAdapter.notifyDataSetChanged();
                     high_temp_shimmer.setVisibility(highTempItems.isEmpty() ? View.VISIBLE : View.GONE);
-                },950);
+                }, 950);
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    ControlItem controlItem;
+    private void getControlInfo() {
+        controlRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                controlItem = snapshot.getValue(ControlItem.class);
+                if (controlItem == null)
+                    controlItem = new ControlItem();
+                warning_card.setVisibility(controlItem.getThermalControl() ? View.GONE : View.VISIBLE);
             }
 
             @Override

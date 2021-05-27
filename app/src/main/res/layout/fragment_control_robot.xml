@@ -1,163 +1,304 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.user.controlRobot.ControlRobotFragment">
 
-
-    <ImageView
-        android:id="@+id/arm_robot_img"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/arm_robot_img"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:paddingBottom="48dp">
 
-    <TextView
-        android:id="@+id/base_motor_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Base motor"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/arm_robot_img" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/warning_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/light_black"
+            app:cardCornerRadius="25dp"
+            app:contentPadding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/base_motor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stepSize="1.0"
-        android:valueFrom="0.0"
-        android:valueTo="360.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/base_motor_text" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <TextView
+                    android:id="@+id/warning_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/warning"
+                    android:textColor="#EA2B6C"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/shoulder_motor_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Shoulder motor"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/base_motor" />
+                <TextView
+                    android:id="@+id/warning_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="@string/you_cannot_control_the_robot_movement_because_the_controlmovement_is_turned_off_ndo_you_want_to_turn_it_on"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/warning_title" />
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/shoulder_motor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stepSize="1.0"
-        android:valueFrom="0.0"
-        android:valueTo="360.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/shoulder_motor_text" />
-
-    <TextView
-        android:id="@+id/elbow_motor_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Elbow motor"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/shoulder_motor" />
-
-    <com.google.android.material.slider.Slider
-        android:id="@+id/elbow_motor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stepSize="1.0"
-        android:valueFrom="0.0"
-        android:valueTo="360.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elbow_motor_text" />
+                <TextView
+                    android:id="@+id/warning_turn_on"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/background_login"
+                    android:gravity="center"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/turn_it_on"
+                    android:textColor="#FFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/warning_message" />
 
 
-    <TextView
-        android:id="@+id/wrist_motor_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Wrist motor"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elbow_motor" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/wrist_motor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stepSize="1.0"
-        android:valueFrom="0.0"
-        android:valueTo="360.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/wrist_motor_text" />
+        <View
+            android:id="@+id/hidden_view"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/warning_card"
+            tools:visibility="visible" />
 
-    <TextView
-        android:id="@+id/gripper_motor_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Gripper motor"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/wrist_motor" />
+        <WebView
+            android:id="@+id/web_view_live"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hidden_view"
+            tools:ignore="WebViewLayout" />
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/gripper_motor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stepSize="1.0"
-        android:valueFrom="0.0"
-        android:valueTo="360.0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gripper_motor_text" />
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/live_video"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:background="@android:color/background_dark"
+            app:controller_layout_id="@layout/live_video_item_controller"
+            app:fastforward_increment="10000"
+
+            app:hide_on_touch="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hidden_view"
+            android:visibility="gone"
+
+            app:resize_mode="fit"
+            app:rewind_increment="10000"
+            app:show_timeout="5000"
+            app:shutter_background_color="@android:color/transparent" />
+
+        <ProgressBar
+            android:id="@+id/exo_progress_bar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/live_video"
+            app:layout_constraintEnd_toEndOf="@id/live_video"
+            app:layout_constraintStart_toStartOf="@id/live_video"
+            app:layout_constraintTop_toTopOf="@id/live_video" />
+
+        <ImageView
+            android:id="@+id/arm_robot_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/arm_robot_img"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/warning_card" />
+
+        <TextView
+            android:id="@+id/base_motor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/base_motor"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/web_view_live" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/base_motor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="360.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/base_motor_text" />
 
 
-    <TextView
-        android:id="@+id/con_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Control robot"
-        android:textSize="24sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/shoulder_motor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/shoulder_motor"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/base_motor" />
 
-    <io.github.controlwear.virtual.joystick.android.JoystickView
-        android:id="@+id/joystickView"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/background_joystick"
-        android:visibility="gone"
-        app:JV_buttonColor="@color/white"
-        app:JV_fixedCenter="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.slider.Slider
+            android:id="@+id/shoulder_motor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="360.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/shoulder_motor_text" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/elbow_motor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/elbow_motor"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/shoulder_motor" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/elbow_motor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="360.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/elbow_motor_text" />
+
+
+        <TextView
+            android:id="@+id/wrist_roll_motor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/wrist_roll_motor"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/elbow_motor" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/wrist_roll_motor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="360.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wrist_roll_motor_text" />
+
+        <TextView
+            android:id="@+id/wrist_pitch_motor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/wrist_pitch_motor"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wrist_roll_motor" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/wrist_pitch_motor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="360.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wrist_pitch_motor_text" />
+
+        <TextView
+            android:id="@+id/gripper_motor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/gripper_motor"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wrist_pitch_motor" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/gripper_motor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="360.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gripper_motor_text" />
+
+
+        <TextView
+            android:id="@+id/con_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Control robot" />
+
+        <io.github.controlwear.virtual.joystick.android.JoystickView
+            android:id="@+id/joystickView"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/background_joystick"
+            android:visibility="gone"
+            app:JV_buttonColor="@color/white"
+            app:JV_fixedCenter="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

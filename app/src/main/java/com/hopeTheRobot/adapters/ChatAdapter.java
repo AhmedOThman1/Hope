@@ -65,9 +65,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (position == Models.size() - 1 || !Models.get(position).getUserUid().equals(Models.get(position + 1).getUserUid()))
                 currentUserMessageViewHolder.messageBody.setBackgroundResource(R.drawable.background_your_message0);
             else if (Models.get(position).getUserUid().equals(Models.get(position + 1).getUserUid()))
+            {
+                currentUserMessageViewHolder.messageBody.setPadding(pxToDp(10), pxToDp(8), pxToDp(10), pxToDp(8));
                 currentUserMessageViewHolder.messageBody.setBackgroundResource(R.drawable.background_your_message);
+            }
 
-            currentUserMessageViewHolder.messageBody.setPadding(pxToDp(10), pxToDp(8), pxToDp(10), pxToDp(8));
 
         } else {
             final OtherUsersMessageViewHolder otherUsersMessageViewHolder = (OtherUsersMessageViewHolder) holder;
@@ -88,9 +90,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else if (Models.get(position).getUserUid().equals(Models.get(position + 1).getUserUid())) {
                 otherUsersMessageViewHolder.message_user_image.setVisibility(View.GONE);
                 otherUsersMessageViewHolder.messageBody.setBackgroundResource(R.drawable.background_other_message);
+                otherUsersMessageViewHolder.messageBody.setPadding(pxToDp(10), pxToDp(8), pxToDp(10), pxToDp(8));
             }
 
-            otherUsersMessageViewHolder.messageBody.setPadding(pxToDp(10), pxToDp(8), pxToDp(10), pxToDp(8));
         }
 
     }

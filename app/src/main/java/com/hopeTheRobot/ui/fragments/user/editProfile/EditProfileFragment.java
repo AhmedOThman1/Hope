@@ -106,8 +106,8 @@ public class EditProfileFragment extends Fragment {
                 openKeyboard(name.getEditText());
             } else if (name.getEditText().getText().toString().trim().equals(currentUser.getDisplayName()) &&
                     currentPassword.getEditText().getText().toString().trim().isEmpty() &&
-                    currentPassword.getEditText().getText().toString().trim().isEmpty() &&
-                    newPassword.getEditText().getText().toString().trim().isEmpty()) {
+                    newPassword.getEditText().getText().toString().trim().isEmpty() &&
+                    ImageUri.equals(currentUser.getPhotoUrl())) {
                 name.setError(null);
                 Toast.makeText(requireContext(), "no thing change", Toast.LENGTH_SHORT).show();
             } else if (!currentPassword.getEditText().getText().toString().trim().isEmpty() &&
